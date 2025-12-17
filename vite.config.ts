@@ -5,4 +5,5 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
   plugins: [tailwindcss(), reactRouter(), tsconfigPaths()],
+  base: process.env.VITE_BASE_PATH || "/ai-resume-analyzer",
 });
