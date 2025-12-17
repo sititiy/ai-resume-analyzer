@@ -31,17 +31,17 @@ export default function WipeApp() {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>در حال بارگذاری...</div>;
   }
 
   if (error) {
-    return <div>Error {error}</div>;
+    return <div>خطا {error}</div>;
   }
 
   return (
     <div>
-      Authenticated as: {auth.user?.username}
-      <div>Existing files:</div>
+      احراز هویت شده به عنوان: {auth.user?.username}
+      <div>فایل‌های موجود:</div>
       <div className="flex flex-col gap-4">
         {files.map((file) => (
           <div key={file.id} className="flex flex-row gap-4">
@@ -54,7 +54,7 @@ export default function WipeApp() {
           className="bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer"
           onClick={() => handleDelete()}
         >
-          Wipe App Data
+          پاک کردن داده‌های برنامه
         </button>
       </div>
     </div>

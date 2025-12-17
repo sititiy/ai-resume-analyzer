@@ -20,7 +20,7 @@ const ScoreBadge = ({ score }: { score: number }) => {
     >
       <img
         src={score > 69 ? "/icons/check.svg" : "/icons/warning.svg"}
-        alt="score"
+        alt="امتیاز"
         className="size-4"
       />
       <p
@@ -68,7 +68,7 @@ const CategoryContent = ({
               src={
                 tip.type === "good" ? "/icons/check.svg" : "/icons/warning.svg"
               }
-              alt="score"
+              alt="امتیاز"
               className="size-5"
             />
             <p className="text-xl text-gray-500 ">{tip.tip}</p>
@@ -93,7 +93,7 @@ const CategoryContent = ({
                     ? "/icons/check.svg"
                     : "/icons/warning.svg"
                 }
-                alt="score"
+                alt="امتیاز"
                 className="size-5"
               />
               <p className="text-xl font-semibold">{tip.tip}</p>
@@ -113,7 +113,7 @@ const Details = ({ feedback }: { feedback: Feedback }) => {
         <AccordionItem id="tone-style">
           <AccordionHeader itemId="tone-style">
             <CategoryHeader
-              title="Tone & Style"
+              title="تن و سبک"
               categoryScore={feedback.toneAndStyle.score}
             />
           </AccordionHeader>
@@ -124,7 +124,7 @@ const Details = ({ feedback }: { feedback: Feedback }) => {
         <AccordionItem id="content">
           <AccordionHeader itemId="content">
             <CategoryHeader
-              title="Content"
+              title="محتوای"
               categoryScore={feedback.content.score}
             />
           </AccordionHeader>
@@ -135,7 +135,7 @@ const Details = ({ feedback }: { feedback: Feedback }) => {
         <AccordionItem id="structure">
           <AccordionHeader itemId="structure">
             <CategoryHeader
-              title="Structure"
+              title="ساختار"
               categoryScore={feedback.structure.score}
             />
           </AccordionHeader>
@@ -146,7 +146,7 @@ const Details = ({ feedback }: { feedback: Feedback }) => {
         <AccordionItem id="skills">
           <AccordionHeader itemId="skills">
             <CategoryHeader
-              title="Skills"
+              title="مهارت‌ها"
               categoryScore={feedback.skills.score}
             />
           </AccordionHeader>

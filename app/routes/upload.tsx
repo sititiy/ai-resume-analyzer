@@ -30,25 +30,23 @@ export default function Upload() {
   }) => {
     setIsProcessing(true);
 
-    setStatusText("Uploading the file...");
+    setStatusText("در حال آپلود فایل...");
     const uploadedFile = await fs.upload([file]);
-    if (!uploadedFile) return setStatusText("Error: Failed to upload file");
+    if (!uploadedFile) return setStatusText("خطا: آپلود فایل ناموفق بود");
 
-    setStatusText("Converting to image...");
+    setStatusText("در حال تبدیل به تصویر...");
     const imageFile = await convertPdfToImage(file);
     if (!imageFile.file) {
-      const errorMsg = imageFile.error || "Unknown error";
+      const errorMsg = imageFile.error || "خطای نامشخص";
       console.error("PDF conversion error:", errorMsg);
-      return setStatusText(
-        `Error: Failed to convert PDF to image - ${errorMsg}`
-      );
+      return setStatusText(`خطا: تبدیل PDF به تصویر ناموفق بود - ${errorMsg}`);
     }
 
-    setStatusText("Uploading the image...");
+    setStatusText("در حال آپلود تصویر...");
     const uploadedImage = await fs.upload([imageFile.file]);
-    if (!uploadedImage) return setStatusText("Error: Failed to upload image");
+    if (!uploadedImage) return setStatusText("خطا: آپلود تصویر ناموفق بود");
 
-    setStatusText("Preparing data...");
+    setStatusText("در حال آماده‌سازی داده‌ها...");
     const uuid = generateUUID();
     const data = {
       id: uuid,
@@ -61,7 +59,7 @@ export default function Upload() {
     };
     await kv.set(`resume:${uuid}`, JSON.stringify(data));
 
-    setStatusText("Analyzing...");
+    setStatusText("در حال تحلیل...");
 
     try {
       const models = [
@@ -78,12 +76,14 @@ export default function Upload() {
         let progressInterval: NodeJS.Timeout | undefined;
         try {
           setStatusText(
-            `Analyzing with ${model}... (${i + 1}/${models.length})`
+            `در حال تحلیل با ${model}... (${i + 1}/${models.length})`
           );
 
           progressInterval = setInterval(() => {
             const elapsed = Math.floor((Date.now() - modelStartTime) / 1000);
-            setStatusText(`Analyzing with ${model}... (${elapsed}s elapsed)`);
+            setStatusText(
+              `در حال تحلیل با ${model}... (${elapsed} ثانیه گذشته)`
+            );
           }, 5000);
 
           let timeoutId: NodeJS.Timeout;
@@ -91,7 +91,7 @@ export default function Upload() {
             timeoutId = setTimeout(() => {
               if (progressInterval) clearInterval(progressInterval);
               reject(
-                new Error(`Analysis timed out after 60 seconds with ${model}`)
+                new Error(`تحلیل پس از ۶۰ ثانیه با ${model} به پایان رسید`)
               );
             }, 60000);
           });
@@ -128,14 +128,16 @@ export default function Upload() {
           }
           lastError = error;
           if (i < models.length - 1) {
-            setStatusText(`Trying alternative model...`);
+            setStatusText(`در حال امتحان مدل جایگزین...`);
             await new Promise((resolve) => setTimeout(resolve, 1000));
           }
         }
       }
 
       if (!feedback) {
-        throw lastError || new Error("All models failed to provide feedback");
+        throw (
+          lastError || new Error("همه مدل‌ها در ارائه بازخورد ناموفق بودند")
+        );
       }
 
       const feedbackText =
@@ -145,9 +147,7 @@ export default function Upload() {
 
       if (!feedbackText) {
         console.error("No feedback text found in response:", feedback);
-        return setStatusText(
-          "Error: Failed to analyze resume - Invalid response format"
-        );
+        return setStatusText("خطا: تحلیل رزومه ناموفق بود - فرمت پاسخ نامعتبر");
       }
 
       let parsedFeedback;
@@ -161,19 +161,18 @@ export default function Upload() {
         console.error("Failed to parse feedback JSON:", parseError);
         console.error("Feedback text:", feedbackText);
         return setStatusText(
-          "Error: Failed to parse analysis response. Please try again."
+          "خطا: تجزیه پاسخ تحلیل ناموفق بود. لطفاً دوباره تلاش کنید."
         );
       }
 
       data.feedback = parsedFeedback;
       await kv.set(`resume:${uuid}`, JSON.stringify(data));
-      setStatusText("Analysis complete, redirecting...");
+      setStatusText("تحلیل کامل شد، در حال هدایت...");
       navigate(`/resume/${uuid}`);
     } catch (error: any) {
       console.error("Analysis error:", error);
-      const errorMessage =
-        error?.message || "Unknown error occurred during analysis";
-      return setStatusText(`Error: ${errorMessage}`);
+      const errorMessage = error?.message || "خطای نامشخص در حین تحلیل رخ داد";
+      return setStatusText(`خطا: ${errorMessage}`);
     }
   };
 
@@ -198,14 +197,14 @@ export default function Upload() {
 
       <section className="main-section">
         <div className="page-heading py-16">
-          <h1>Smart feedback for your dream job</h1>
+          <h1>بازخورد هوشمند برای شغل رویایی شما</h1>
           {isProcessing ? (
             <>
               <h2>{statusText}</h2>
               <img src="/images/resume-scan.gif" className="w-full" />
             </>
           ) : (
-            <h2>Drop your resume for an ATS score and improvement tips</h2>
+            <h2>رزومه خود را برای امتیاز ATS و نکات بهبود رها کنید</h2>
           )}
           {!isProcessing && (
             <form
@@ -214,40 +213,40 @@ export default function Upload() {
               className="flex flex-col gap-4 mt-8"
             >
               <div className="form-div">
-                <label htmlFor="company-name">Company Name</label>
+                <label htmlFor="company-name">نام شرکت</label>
                 <input
                   type="text"
                   name="company-name"
-                  placeholder="Company Name"
+                  placeholder="نام شرکت"
                   id="company-name"
                 />
               </div>
               <div className="form-div">
-                <label htmlFor="job-title">Job Title</label>
+                <label htmlFor="job-title">عنوان شغل</label>
                 <input
                   type="text"
                   name="job-title"
-                  placeholder="Job Title"
+                  placeholder="عنوان شغل"
                   id="job-title"
                 />
               </div>
               <div className="form-div">
-                <label htmlFor="job-description">Job Description</label>
+                <label htmlFor="job-description">توضیحات شغل</label>
                 <textarea
                   rows={5}
                   name="job-description"
-                  placeholder="Job Description"
+                  placeholder="توضیحات شغل"
                   id="job-description"
                 />
               </div>
 
               <div className="form-div">
-                <label htmlFor="uploader">Upload Resume</label>
+                <label htmlFor="uploader">آپلود رزومه</label>
                 <FileUploader onFileSelect={handleFileSelect} />
               </div>
 
               <button className="primary-button" type="submit">
-                Analyze Resume
+                تحلیل رزومه
               </button>
             </form>
           )}

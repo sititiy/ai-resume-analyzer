@@ -144,15 +144,16 @@ export const prepareInstructions = ({
   jobDescription: string;
   AIResponseFormat?: string;
 }) =>
-  `You are an expert in ATS (Applicant Tracking System) and resume analysis.
-    Please analyze and rate this resume and suggest how to improve it.
-    The rating can be low if the resume is bad.
-    Be thorough and detailed. Don't be afraid to point out any mistakes or areas for improvement.
-    If there is a lot to improve, don't hesitate to give low scores. This is to help the user to improve their resume.
-    If available, use the job description for the job user is applying to to give more detailed feedback.
-    If provided, take the job description into consideration.
-    The job title is: ${jobTitle}
-    The job description is: ${jobDescription}
-    Provide the feedback using the following format: ${AIResponseFormat}
-    Return the analysis as a JSON object, without any other text and without the backticks.
-    Do not include any other text or comments.`;
+  `شما یک متخصص در سیستم ردیابی متقاضی (ATS) و تحلیل رزومه هستید.
+    لطفاً این رزومه را تحلیل و ارزیابی کنید و پیشنهاداتی برای بهبود آن ارائه دهید.
+    اگر رزومه ضعیف است، می‌توانید امتیاز پایین بدهید.
+    کامل و دقیق باشید. از اشاره به اشتباهات یا نقاط قابل بهبود نترسید.
+    اگر موارد زیادی برای بهبود وجود دارد، در دادن امتیاز پایین تردید نکنید. این برای کمک به کاربر در بهبود رزومه است.
+    در صورت وجود، از توضیحات شغل برای شغلی که کاربر برای آن درخواست می‌دهد استفاده کنید تا بازخورد دقیق‌تری ارائه دهید.
+    در صورت ارائه، توضیحات شغل را در نظر بگیرید.
+    عنوان شغل: ${jobTitle}
+    توضیحات شغل: ${jobDescription}
+    بازخورد را با استفاده از فرمت زیر ارائه دهید: ${AIResponseFormat}
+    تحلیل را به صورت یک شیء JSON برگردانید، بدون هیچ متن دیگری و بدون بک‌تیک.
+    هیچ متن یا کامنت دیگری اضافه نکنید.
+    مهم: تمام متن‌های بازخورد، نکات، توضیحات و پیشنهادات باید به زبان فارسی باشند.`;

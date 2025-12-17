@@ -35,7 +35,7 @@ export default function ResumeCard({
             <h3 className="text-lg break-words text-gray-500">{jobTitle}</h3>
           )}
           {!companyName && !jobTitle && (
-            <h2 className="!text-black font-bold">Resume</h2>
+            <h2 className="!text-black font-bold">رزومه</h2>
           )}
         </div>
         <div className="flex-shrink-0">
@@ -47,7 +47,7 @@ export default function ResumeCard({
           <div className="w-full h-full">
             <img
               src={resumeUrl}
-              alt="resume"
+              alt="رزومه"
               className="w-full h-[350px] max-sm:h-[200px] object-cover object-top"
             />
           </div>

@@ -8,8 +8,8 @@ import { useEffect, useState } from "react";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Resume Analyzer" },
-    { name: "description", content: "Smart feedback for your dream job!" },
+    { title: "تحلیلگر رزومه" },
+    { name: "description", content: "بازخورد هوشمند برای شغل رویایی شما!" },
   ];
 }
 
@@ -46,11 +46,17 @@ export default function Home() {
 
       <section className="main-section">
         <div className="page-heading py-16">
-          <h1>Track Your Applications & Resume Ratings</h1>
+          <h1>پیگیری درخواست‌ها و امتیاز رزومه‌های شما</h1>
           {!loadingResumes && resumes?.length === 0 ? (
-            <h2>No resumes found. Upload your first resume to get feedback.</h2>
+            <h2>
+              رزومه‌ای یافت نشد. اولین رزومه خود را آپلود کنید تا بازخورد دریافت
+              کنید.
+            </h2>
           ) : (
-            <h2>Review your submissions and check AI-powered feedback.</h2>
+            <h2>
+              ارسال‌های خود را بررسی کنید و بازخوردهای مبتنی بر هوش مصنوعی را
+              مشاهده کنید.
+            </h2>
           )}
         </div>
         {loadingResumes && (
@@ -73,7 +79,7 @@ export default function Home() {
               to="/upload"
               className="primary-button w-fit text-xl font-semibold"
             >
-              Upload Resume
+              آپلود رزومه
             </Link>
           </div>
         )}

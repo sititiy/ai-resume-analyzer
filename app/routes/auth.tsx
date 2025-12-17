@@ -3,8 +3,8 @@ import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router";
 
 export const meta = () => [
-  { title: "Resumind | Auth" },
-  { name: "description", content: "Log into your account" },
+  { title: "رزومایند | ورود" },
+  { name: "description", content: "وارد حساب کاربری خود شوید" },
 ];
 
 export default function Auth() {
@@ -22,23 +22,23 @@ export default function Auth() {
       <div className="gradient-border shadow-lg">
         <section className="flex flex-col gap-8 bg-white rounded-2xl p-10">
           <div className="flex flex-col items-center gap-2 text-center">
-            <h1>Welcome</h1>
-            <h2>Log In to Continue Your Job Journey</h2>
+            <h1>خوش آمدید</h1>
+            <h2>برای ادامه سفر شغلی خود وارد شوید</h2>
           </div>
           <div>
             {isLoading ? (
               <button className="auth-button animate-pulse">
-                <p>Signing you in...</p>
+                <p>در حال ورود...</p>
               </button>
             ) : (
               <>
                 {auth.isAuthenticated ? (
                   <button className="auth-button" onClick={auth.signOut}>
-                    <p>Log Out</p>
+                    <p>خروج</p>
                   </button>
                 ) : (
                   <button className="auth-button" onClick={auth.signIn}>
-                    <p>Log In</p>
+                    <p>ورود</p>
                   </button>
                 )}
               </>
