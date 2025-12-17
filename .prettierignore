@@ -1,0 +1,24 @@
+# Dependencies
+node_modules
+package-lock.json
+
+# Build outputs
+build
+dist
+.react-router
+
+# Generated files
+*.min.js
+*.min.css
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode
+.idea
+
