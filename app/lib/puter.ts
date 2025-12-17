@@ -74,7 +74,8 @@ interface PuterStore {
     ) => Promise<AIResponse | undefined>;
     feedback: (
       path: string,
-      message: string
+      message: string,
+      model?: string
     ) => Promise<AIResponse | undefined>;
     img2txt: (
       image: string | File | Blob,
@@ -327,31 +328,58 @@ export const usePuterStore = create<PuterStore>((set, get) => {
     >;
   };
 
-  const feedback = async (path: string, message: string) => {
+  const feedback = async (
+    path: string,
+    message: string,
+    model: string = "claude-sonnet-4"
+  ) => {
     const puter = getPuter();
     if (!puter) {
-      setError("Puter.js not available");
-      return;
+      const error = "Puter.js not available";
+      setError(error);
+      throw new Error(error);
     }
 
-    return puter.ai.chat(
-      [
-        {
-          role: "user",
-          content: [
-            {
-              type: "file",
-              puter_path: path,
-            },
-            {
-              type: "text",
-              text: message,
-            },
-          ],
-        },
-      ],
-      { model: "claude-sonnet-4" }
-    ) as Promise<AIResponse | undefined>;
+    if (!puter.ai || !puter.ai.chat) {
+      const error = "Puter AI chat not available";
+      console.error(error);
+      throw new Error(error);
+    }
+
+    try {
+      if (typeof puter.ai.chat !== "function") {
+        throw new Error("puter.ai.chat is not a function");
+      }
+
+      const chatPromise = puter.ai.chat(
+        [
+          {
+            role: "user",
+            content: [
+              {
+                type: "file",
+                puter_path: path,
+              },
+              {
+                type: "text",
+                text: message,
+              },
+            ],
+          },
+        ],
+        { model }
+      );
+
+      if (!chatPromise || typeof chatPromise.then !== "function") {
+        throw new Error("puter.ai.chat did not return a promise");
+      }
+
+      const response = await chatPromise;
+      return response as AIResponse | undefined;
+    } catch (error: any) {
+      console.error("Error in feedback function:", error);
+      throw error;
+    }
   };
 
   const img2txt = async (image: string | File | Blob, testMode?: boolean) => {
@@ -438,7 +466,8 @@ export const usePuterStore = create<PuterStore>((set, get) => {
         testMode?: boolean,
         options?: PuterChatOptions
       ) => chat(prompt, imageURL, testMode, options),
-      feedback: (path: string, message: string) => feedback(path, message),
+      feedback: (path: string, message: string, model?: string) =>
+        feedback(path, message, model),
       img2txt: (image: string | File | Blob, testMode?: boolean) =>
         img2txt(image, testMode),
     },
